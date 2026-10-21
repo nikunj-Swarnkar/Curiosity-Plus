@@ -22,10 +22,12 @@ public class CuriosityConfig {
 
     private static final String KEY_HUD_SHOW_MODE = "hud-show-mode";
     private static final String KEY_COMPASS_ITEMS = "compass-items";
+    private static final String KEY_RED_NORTH = "red-north";
     private static final String DEFAULT_COMPASS_ID = "minecraft:compass";
 
     private static HudShowMode hudShowMode = HudShowMode.ALWAYS;
     private static Set<Integer> compassItems = Set.of(Item.getId(Items.COMPASS));
+    private static boolean redNorth = true;
 
     public static HudShowMode getHudShowMode() {
         return hudShowMode;
@@ -69,6 +71,10 @@ public class CuriosityConfig {
                                 "value '" + HudShowMode.ALWAYS.name().toLowerCase() + "'.");
                         return false;
                     }
+                }
+
+                if (key.equals(KEY_RED_NORTH)) {
+                    CuriosityConfig.redNorth = Boolean.parseBoolean(pieces[1].strip());
                 }
 
                 if (key.equals(KEY_COMPASS_ITEMS)) {
@@ -116,12 +122,14 @@ public class CuriosityConfig {
         Path filePath = Path.of(CONFIG_FILE);
         try {
             Files.write(filePath, List.of(new String[]{
-                    "# WAIG config file",
+                    "# Curiosity Plus config file",
                     "",
                     "# hud show mode, defaults to " + HudShowMode.ALWAYS.name().toLowerCase(),
                     "# possible values are: " + Arrays.toString(HudShowMode.values()).toLowerCase(),
                     KEY_HUD_SHOW_MODE + " = " + HudShowMode.ALWAYS.name().toLowerCase(),
                     "",
+                    "# highlight North (N) in red color, defaults to true",
+                    KEY_RED_NORTH + " = true",
                     "# list of valid compass items, defaults to " + DEFAULT_COMPASS_ID,
                     "# use the namespaced identifiers of items and use a colon as a separator",
                     "# separate list items with commas",
@@ -134,4 +142,7 @@ public class CuriosityConfig {
         }
     }
 
+    public static boolean isRedNorth() {
+        return redNorth;
+    }
 }
