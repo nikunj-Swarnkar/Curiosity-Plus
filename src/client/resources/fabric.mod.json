@@ -20,7 +20,9 @@
     "client": [
       "com.curiosity.client.CuriosityPlusClient"
     ],
-    "server": []
+    "ukulib": [
+      "com.curiosity.client.config.UkulibIntegration"
+    ]
   },
   "mixins": [
     "curiosity-plus.client.mixins.json"
@@ -30,6 +32,7 @@
       ">=26.2"
     ],
     "fabricloader": ">=0.12.11",
-    "fabric-api": "*"
+    "fabric-api": "*",
+    "ukulib": "^2.2.0"
   }
 }

@@ -1,5 +1,6 @@
 package com.curiosity.client.config;
 
+import lombok.Getter;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,7 +18,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CuriosityConfig {
+public class CompassConfig {
     private static final String CONFIG_FILE = "config/curiosity.config";
 
     private static final String KEY_HUD_SHOW_MODE = "hud-show-mode";
@@ -25,23 +26,18 @@ public class CuriosityConfig {
     private static final String KEY_RED_NORTH = "red-north";
     private static final String DEFAULT_COMPASS_ID = "minecraft:compass";
 
+    @Getter
     private static HudShowMode hudShowMode = HudShowMode.ALWAYS;
+    @Getter
     private static Set<Integer> compassItems = Set.of(Item.getId(Items.COMPASS));
+    @Getter
     private static boolean redNorth = true;
 
-    public static HudShowMode getHudShowMode() {
-        return hudShowMode;
-    }
-
-    public static Set<Integer> getCompassItems() {
-        return compassItems;
-    }
-
-    public static boolean readConfigFile() {
+    public static void readConfigFile() {
         Path filePath = Path.of(CONFIG_FILE);
         if (!Files.exists(filePath)) {
             if (!generateDefaultConfigFile()) {
-                return false;
+                return;
             }
         }
 
@@ -63,18 +59,18 @@ public class CuriosityConfig {
                 if (key.equals(KEY_HUD_SHOW_MODE)) {
                     String value = pieces[1].strip().toUpperCase();
                     try {
-                        CuriosityConfig.hudShowMode = HudShowMode.valueOf(value);
+                        CompassConfig.hudShowMode = HudShowMode.valueOf(value);
                     } catch (IllegalArgumentException e) {
                         CuriosityPlusClient.log(Level.ERROR, "The value '" + pieces[1].strip() + "' for config key '"
                                 + KEY_HUD_SHOW_MODE + "' is invalid. Possible values are: "
                                 + Arrays.toString(HudShowMode.values()).toLowerCase() + ". Falling back to default " +
                                 "value '" + HudShowMode.ALWAYS.name().toLowerCase() + "'.");
-                        return false;
+                        return;
                     }
                 }
 
                 if (key.equals(KEY_RED_NORTH)) {
-                    CuriosityConfig.redNorth = Boolean.parseBoolean(pieces[1].strip());
+                    CompassConfig.redNorth = Boolean.parseBoolean(pieces[1].strip());
                 }
 
                 if (key.equals(KEY_COMPASS_ITEMS)) {
@@ -103,7 +99,7 @@ public class CuriosityConfig {
                             .filter(item -> !item.equals(Item.getId(Items.AIR)))
                             .collect(Collectors.toSet());
                     if (!configItems.isEmpty()) {
-                        CuriosityConfig.compassItems = configItems;
+                        CompassConfig.compassItems = configItems;
                     } else {
                         CuriosityPlusClient.log(Level.WARN, "The config key '" + KEY_COMPASS_ITEMS +  "' is present, " +
                                 "but no values were configured. Defaulting to " + DEFAULT_COMPASS_ID + ".");
@@ -112,10 +108,8 @@ public class CuriosityConfig {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
         }
 
-        return true;
     }
 
     public static boolean generateDefaultConfigFile() {
@@ -142,7 +136,4 @@ public class CuriosityConfig {
         }
     }
 
-    public static boolean isRedNorth() {
-        return redNorth;
-    }
 }

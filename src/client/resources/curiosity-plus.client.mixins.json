@@ -2,12 +2,20 @@
 	"required": true,
 	"minVersion": "0.8",
 	"package": "com.curiosity.client.mixin",
-	"compatibilityLevel": "JAVA_16",
+	"compatibilityLevel": "JAVA_25",
 	"mixins": [
 		"BossHealthOverlayAccessor",
-		"EquipmentAccessor"
+		"EquipmentAccessor",
+		"HudAccessor",
+		"InventoryMenuAccessor",
+		"MixinBossHealthOverlay",
+		"MixinHud",
+		"MixinMinecraft",
+		"MixinSubtitleOverlay"
 	],
-	"client": [],
+	"client": [
+		"MixinHud"
+	],
 	"injectors": {
 		"defaultRequire": 1
 	}

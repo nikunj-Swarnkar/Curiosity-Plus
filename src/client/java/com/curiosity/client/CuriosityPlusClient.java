@@ -1,16 +1,12 @@
 package com.curiosity.client;
 
 
-import com.curiosity.client.config.CuriosityConfig;
+import com.curiosity.client.config.CompassConfig;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
-import net.minecraft.client.KeyMapping;
-import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.resources.Identifier;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -30,26 +26,11 @@ public class CuriosityPlusClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		log(Level.INFO, "Initializing");
 
-		// read config file located in ".minecraft/config/waig.config"
-		CuriosityConfig.readConfigFile();
+		ArmorHud.onInitialize();
+		CompassConfig.readConfigFile();
 
-		// register render callback
 		HudElementRegistry.attachElementAfter(VanillaHudElements.BOSS_BAR, hudIdentifier, new CompassHud());
 
-		// add key binding to toggle visibility of the hud
-		KeyMapping binding = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-				"key.curiosity.toggle",
-				InputConstants.Type.KEYBOARD,
-				InputConstants.KEY_F6,
-				KeyMapping.Category.MISC
-		));
-
-		// add response to the keybinding
-		ClientTickEvents.END_CLIENT_TICK.register(_ -> {
-			while (binding.consumeClick()) {
-				CompassHud.toggleVisibility();
-			}
-		});
 	}
 
 	public static void log(Level level, String message) {
