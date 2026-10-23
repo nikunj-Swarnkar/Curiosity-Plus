@@ -1,8 +1,10 @@
-![logo](https://cdn.modrinth.com/data/cached_images/f4d6f4712c2646e9bbd980861389574c13e5aab2.png)
+[![logo](https://cdn.modrinth.com/data/cached_images/f4d6f4712c2646e9bbd980861389574c13e5aab2.png)](https://modrinth.com/mod/curiosity-plus)
 
 # Curiosity Plus
 
 Curiosity Plus is a client-side Fabric mod that adds clean, custom HUD elements to Minecraft to help you navigate and survive. The goal is to make exploration more immersive without cluttering your screen with complicated text.
+
+[**Modrinth Page**](https://modrinth.com/mod/curiosity-plus)
 
 ## Features
 
